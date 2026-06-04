@@ -1,0 +1,22 @@
+class SidebarView {
+  _parent = document.querySelector(".menu-btn");
+  sidebar = document.querySelector(".sidebar");
+  overlay = document.querySelector(".overlay");
+  body = document.querySelector("body");
+
+  toggleSidebarView() {
+    this.sidebar.classList.toggle("sidebar-open");
+    this.overlay.classList.toggle("hidden");
+    this.body.classList.toggle("no-scroll");
+  }
+
+  addMenubarHandler() {
+    this._parent.addEventListener("click", this.toggleSidebarView.bind(this));
+  }
+
+  addOverlayHandler() {
+    this.overlay.addEventListener("click", this.toggleSidebarView.bind(this));
+  }
+}
+
+export default new SidebarView();
