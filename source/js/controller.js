@@ -19,6 +19,7 @@ const controlNav = function (btn) {
 
 const init = function () {
   transactionView.addTransactionHandler();
+  transactionView.addFilterBtnHandler();
   sidebarView.addMenubarHandler();
   sidebarView.addOverlayHandler();
   sidebarView.sideNavHandler();
