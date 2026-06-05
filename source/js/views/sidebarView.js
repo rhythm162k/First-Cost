@@ -14,7 +14,9 @@ class SidebarView {
   revealScreen(e) {
     const btn = e.target.closest(".navigate-to");
     if (!btn) return;
-    this.toggleSidebarView();
+    this.sidebar.classList.remove("sidebar-open");
+    this.overlay.classList.add("hidden");
+    this.body.classList.remove("no-scroll");
   }
 
   sideNavHandler() {
