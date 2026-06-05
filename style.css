@@ -138,6 +138,7 @@ select {
   border: none;
   border-radius: 12px;
   text-align: left;
+  cursor: pointer;
 }
 
 .menu-btn {
@@ -211,8 +212,15 @@ select {
 
 .form-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem;
+}
+
+.form-transaction {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.form-filter {
+  grid-template-columns: repeat(4, 1fr);
 }
 
 .form-group {
@@ -234,7 +242,8 @@ select {
   font-size: 1rem;
 }
 
-.save-transaction-btn {
+.save-transaction-btn,
+.filter-transaction-btn {
   margin-top: 20px;
   height: 48px;
 }
@@ -308,7 +317,17 @@ select {
   overflow: hidden;
 }
 
+@media (max-width: 1200px) {
+  .form-filter {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 992px) {
+  .form-transaction {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .cards-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -332,6 +351,11 @@ select {
 }
 
 @media (max-width: 600px) {
+  .form-filter,
+  .form-transaction {
+    grid-template-columns: 1fr;
+  }
+
   .cards-grid {
     grid-template-columns: 1fr;
   }
@@ -347,15 +371,7 @@ select {
     gap: 1rem;
     align-items: flex-start;
   }
-}
 
-@media (min-width: 601px) and (max-width: 992px) {
-  .menu-btn {
-    display: block;
-  }
-}
-
-@media (max-width: 600px) {
   .mobile-nav {
     display: flex;
 
@@ -372,5 +388,11 @@ select {
     padding: 1rem;
 
     box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+  }
+}
+
+@media (min-width: 601px) and (max-width: 992px) {
+  .menu-btn {
+    display: block;
   }
 }

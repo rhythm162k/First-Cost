@@ -5,7 +5,6 @@ class TransactionView {
 
   toggleTransactionForm() {
     this.transactionPlate.classList.toggle("hidden");
-    this._parent.classList.toggle("hidden");
   }
 
   addTransactionHandler(handler = null) {

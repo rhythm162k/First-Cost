@@ -46,7 +46,7 @@
 
           <!-- JS: navigation -->
           <nav>
-            <button class="nav-btn active">Dashboard</button>
+            <button class="nav-btn">Dashboard</button>
             <button class="nav-btn">Transactions</button>
             <button class="nav-btn">Statistics</button>
             <button class="nav-btn">Settings</button>
@@ -100,7 +100,7 @@
             <h2>Add Transaction</h2>
 
             <form class="transaction-form">
-              <div class="form-grid">
+              <div class="form-grid form-transaction">
                 <div class="form-group">
                   <label for="type">Transaction Type</label>
                   <select id="type" name="type">
@@ -158,26 +158,50 @@
             </form>
           </section>
 
-          <!-- FILTER DRAWER -->
-          <section class="panel" id="filterPanel">
-            <h2>Filters</h2>
-            <div class="form-grid">
-              <input type="text" placeholder="Category" />
-              <input type="date" />
-              <select>
-                <option>All</option>
-                <option>Income</option>
-                <option>Expense</option>
-              </select>
-            </div>
-          </section>
-
           <!-- TRANSACTIONS -->
           <section class="panel">
             <div class="section-header">
               <h2>Transactions</h2>
               <button class="btn btn-secondary">Filters</button>
             </div>
+
+            <!-- FILTER DRAWER -->
+            <section class="panel" id="filterPanel">
+              <form class="filter-form">
+                <div class="form-grid form-filter">
+                  <div class="form-group">
+                    <label for="filter-category">Category</label>
+                    <input
+                      type="text"
+                      id="filter-category"
+                      name="category"
+                      placeholder="Category"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="filter-date">Date</label>
+                    <input type="date" id="filter-date" name="date" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="filter-type">Transaction Type</label>
+                    <select id="filter-type" name="type">
+                      <option value="all">All</option>
+                      <option value="income">Income</option>
+                      <option value="expense">Expense</option>
+                    </select>
+                  </div>
+
+                  <button
+                    type="submit"
+                    class="btn btn-primary filter-transaction-btn"
+                  >
+                    Filter Transactions
+                  </button>
+                </div>
+              </form>
+            </section>
 
             <!-- JS: hide when transactions exist -->
             <div class="empty-state">
