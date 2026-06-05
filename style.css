@@ -244,6 +244,7 @@ select {
   border: 1px solid #ddd;
   border-radius: 10px;
   font-size: 1rem;
+  height: 48px;
 }
 
 .save-transaction-btn,
