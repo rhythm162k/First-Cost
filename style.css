@@ -114,6 +114,9 @@ select {
 }
 
 .sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
   background: #0f172a;
   color: white;
   padding: 2rem;
@@ -170,6 +173,7 @@ select {
 .main-content {
   padding: 2rem;
   margin-bottom: 5rem;
+  overflow-y: auto;
 }
 
 .topbar {

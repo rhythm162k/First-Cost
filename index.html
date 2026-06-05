@@ -45,11 +45,19 @@
           <h2>First Cost</h2>
 
           <!-- JS: navigation -->
-          <nav>
-            <button class="nav-btn">Dashboard</button>
-            <button class="nav-btn">Transactions</button>
-            <button class="nav-btn">Statistics</button>
-            <button class="nav-btn">Settings</button>
+          <nav class="navigation side-nav-bar">
+            <button class="nav-btn navigate-to" href="#dashboard">
+              Dashboard
+            </button>
+            <button class="nav-btn navigate-to" href="#transactions">
+              Transactions
+            </button>
+            <button class="nav-btn navigate-to" href="#statsSection">
+              Statistics
+            </button>
+            <button class="nav-btn navigate-to" href="#settingsSection">
+              Settings
+            </button>
           </nav>
         </aside>
 
@@ -65,7 +73,7 @@
           </header>
 
           <!-- DASHBOARD -->
-          <section class="dashboard-section">
+          <section class="dashboard-section" id="dashboard">
             <div class="cards-grid">
               <article class="card">
                 <h3>Balance</h3>
@@ -159,14 +167,14 @@
           </section>
 
           <!-- TRANSACTIONS -->
-          <section class="panel">
+          <section class="panel" id="transactions">
             <div class="section-header">
               <h2>Transactions</h2>
               <button class="btn btn-secondary">Filters</button>
             </div>
 
             <!-- FILTER DRAWER -->
-            <section class="panel" id="filterPanel">
+            <section class="panel hidden" id="filterPanel">
               <form class="filter-form">
                 <div class="form-grid form-filter">
                   <div class="form-group">
@@ -251,8 +259,8 @@
             </div>
           </section>
 
-          <nav class="mobile-nav">
-            <button class="mobile-nav-btn">
+          <nav class="navigation mobile-nav">
+            <button class="mobile-nav-btn navigate-to" href="#dashboard">
               <div>
                 <img
                   class="mobile-nav-img"
@@ -262,7 +270,7 @@
                 <p>Dashboard</p>
               </div>
             </button>
-            <button class="mobile-nav-btn">
+            <button class="mobile-nav-btn navigate-to" href="#transactions">
               <div>
                 <img
                   class="mobile-nav-img"
@@ -272,7 +280,7 @@
                 <p>Transaction</p>
               </div>
             </button>
-            <button class="mobile-nav-btn">
+            <button class="mobile-nav-btn navigate-to" href="#statsSection">
               <div>
                 <img
                   class="mobile-nav-img"
@@ -282,7 +290,7 @@
                 <p>Statistics</p>
               </div>
             </button>
-            <button class="mobile-nav-btn">
+            <button class="mobile-nav-btn navigate-to" href="#settingsSection">
               <div>
                 <img
                   class="mobile-nav-img"
