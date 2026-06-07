@@ -249,7 +249,7 @@ select {
 
 .save-transaction-btn,
 .filter-transaction-btn {
-  margin-top: 20px;
+  margin-top: 1.45rem;
   height: 48px;
 }
 
