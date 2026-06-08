@@ -9,6 +9,7 @@ const controlDashboard = function () {
   dashboard.updateExpense(model.state.expense);
   dashboard.updateIncome(model.state.income);
   dashboard.updateSavings(model.state.saving);
+  dashboard.updateUserName(model.state.name);
 };
 controlDashboard();
 

@@ -144,9 +144,12 @@ select {
   cursor: pointer;
 }
 
-.menu-btn {
+.menu-btn__div {
   display: none;
+  width: 100px;
+}
 
+.menu-btn {
   font-size: 1.5rem;
   border: none;
   background: transparent;
@@ -178,6 +181,7 @@ select {
 
 .topbar {
   display: flex;
+  flex: 1;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
@@ -290,6 +294,16 @@ select {
   font-weight: 700;
 }
 
+.expenses {
+  color: #dc2626;
+  font-weight: 700;
+}
+
+.balance {
+  color: var(--primary);
+  font-weight: 700;
+}
+
 .chart-placeholder {
   height: 300px;
   border: 2px dashed var(--border);
@@ -397,7 +411,7 @@ select {
 }
 
 @media (min-width: 601px) and (max-width: 992px) {
-  .menu-btn {
+  .menu-btn__div {
     display: block;
   }
 }
