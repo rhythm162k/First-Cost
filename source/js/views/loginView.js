@@ -4,19 +4,39 @@ class LoginView {
   mainApp = document.querySelector(".app");
   logoutBtn = document.querySelector(".logout-btn");
 
-  logHandler(e) {
-    e.preventDefault();
+  logHandler() {
+    const errorElement = document.querySelector(".error-msg");
+    if (errorElement) {
+      errorElement.remove();
+    }
     this._parent.classList.toggle("hidden");
     this.mainApp.classList.toggle("hidden");
     this.form.reset();
   }
 
-  logoutHandler() {
-    this.logoutBtn.addEventListener("click", this.logHandler.bind(this));
+  errorHandler(msg) {
+    const html = `
+        <p class="error-msg">
+            <span style="color: red">⚠</span> ${msg}
+        </p>
+    `;
+    this.form.insertAdjacentHTML("afterbegin", html);
   }
 
-  loginHandler() {
-    this.form.addEventListener("submit", this.logHandler.bind(this));
+  logoutHandler() {
+    this.logoutBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      this.logHandler();
+    });
+  }
+
+  loginHandler(handler) {
+    this.form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const dataArr = [...new FormData(e.target)];
+      const data = Object.fromEntries(dataArr);
+      handler(data);
+    });
   }
 }
 export default new LoginView();

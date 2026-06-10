@@ -12,11 +12,20 @@ const controlDashboard = function () {
   dashboard.updateSavings(model.state.saving);
   dashboard.updateUserName(model.state.name);
 };
-controlDashboard();
 
 const controlNav = function (btn) {
   const id = btn.getAttribute("href");
   document.querySelector(id).scrollIntoView({ behavior: "smooth" });
+};
+
+const controlFormData = async function (data) {
+  try {
+    await model.userData(data);
+    controlDashboard();
+    loginView.logHandler();
+  } catch (err) {
+    loginView.errorHandler(err.message);
+  }
 };
 
 const init = function () {
@@ -26,7 +35,7 @@ const init = function () {
   sidebarView.addOverlayHandler();
   sidebarView.sideNavHandler();
   navigationView.navigateToHandler(controlNav);
-  loginView.loginHandler();
+  loginView.loginHandler(controlFormData);
   loginView.logoutHandler();
 };
 init();

@@ -1,10 +1,7 @@
-const user = "Rhythm";
-const pass = 1234;
-
 const accounts = [
   {
-    name: "Rhythm",
-    password: 1234,
+    name: "rhythm",
+    password: "1234",
     transactions: [
       {
         id: 123456,
@@ -33,8 +30,8 @@ const accounts = [
     ],
   },
   {
-    name: "Saddam",
-    password: 5678,
+    name: "saddam",
+    password: "5678",
     transactions: [
       {
         id: 123456,
@@ -64,7 +61,7 @@ const accounts = [
   },
   {
     name: "holud",
-    password: 6789,
+    password: "6789",
     transactions: [
       {
         id: 123456,
@@ -102,8 +99,21 @@ export const state = {
   saving: 0,
 };
 
+export const userData = async function (data) {
+  try {
+    const { username, password } = data;
+    const crntUser = accounts.find((acc) => acc.name === username);
+    if (!crntUser)
+      throw new Error("User Not Found, Please Create an Account ;)");
+    if (crntUser.password !== password) throw new Error("Wrong Password");
+    updateState(crntUser);
+  } catch (err) {
+    throw err;
+  }
+};
+
 const updateState = function (crntUser) {
-  state.name = crntUser.name;
+  state.name = crntUser.name[0].toUpperCase() + crntUser.name.slice(1);
   state.income += crntUser.transactions
     .filter((trans) => trans.type === "income")
     .map((tran) => tran.amount)
@@ -114,10 +124,3 @@ const updateState = function (crntUser) {
     .reduce((inc, crnt) => inc + crnt, 0);
   state.balace = state.income - state.expense;
 };
-
-const retrieveData = function () {
-  const crntUser = accounts.find((acc) => acc.name === user);
-  updateState(crntUser);
-};
-
-retrieveData();
