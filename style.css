@@ -90,6 +90,11 @@ select {
   width: 100%;
 }
 
+.create-acc__btn {
+  width: 100%;
+  margin-top: 1rem;
+}
+
 .modal {
   position: fixed;
   inset: 0;

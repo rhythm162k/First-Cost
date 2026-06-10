@@ -10,20 +10,20 @@
   <body>
     <div class="container">
       <!-- LOGIN SCREEN (visible by default) -->
-      <section class="auth-screen hidden" id="authScreen">
+      <section class="auth-screen login-screen" id="authScreen">
         <div class="auth-card">
-          <h1>Bankist Pro</h1>
+          <h1>First Cost</h1>
           <p>Modern Personal Finance Manager</p>
 
-          <form class="auth-form">
+          <form class="auth-form login-form">
             <input type="email" placeholder="Email" />
             <input type="password" placeholder="Password" />
-            <button type="button" class="btn btn-primary">Login</button>
-            <!-- JS: Open register modal -->
-            <button type="button" class="btn btn-secondary">
-              Create Account
-            </button>
+            <button type="submit" class="btn btn-primary">Login</button>
           </form>
+          <!-- JS: Open register modal -->
+          <button type="button" class="btn btn-secondary create-acc__btn">
+            Create Account
+          </button>
         </div>
       </section>
 
@@ -40,7 +40,7 @@
       </div>
 
       <!-- MAIN APP (JS should reveal after login) -->
-      <div class="app" id="app">
+      <div class="app hidden" id="app">
         <aside class="sidebar">
           <h2>First Cost</h2>
 
@@ -259,7 +259,7 @@
               <button class="btn btn-secondary">Toggle Dark Mode</button>
               <button class="btn btn-secondary">Export JSON</button>
               <button class="btn btn-secondary">Import JSON</button>
-              <button class="btn btn-danger">Logout</button>
+              <button class="btn btn-danger logout-btn">Logout</button>
             </div>
           </section>
 

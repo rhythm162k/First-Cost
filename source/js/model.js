@@ -108,12 +108,10 @@ const updateState = function (crntUser) {
     .filter((trans) => trans.type === "income")
     .map((tran) => tran.amount)
     .reduce((inc, crnt) => inc + crnt, 0);
-  console.log(state.income);
   state.expense += crntUser.transactions
     .filter((trans) => trans.type === "expense")
     .map((tran) => tran.amount)
     .reduce((inc, crnt) => inc + crnt, 0);
-  console.log(state.expense);
   state.balace = state.income - state.expense;
 };
 

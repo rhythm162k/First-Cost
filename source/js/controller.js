@@ -3,6 +3,7 @@ import dashboard from "./views/dashboardView.js";
 import transactionView from "./views/transactionView.js";
 import sidebarView from "./views/sidebarView.js";
 import navigationView from "./views/navigationView.js";
+import loginView from "./views/loginView.js";
 
 const controlDashboard = function () {
   dashboard.updateBalance(model.state.balace);
@@ -25,5 +26,7 @@ const init = function () {
   sidebarView.addOverlayHandler();
   sidebarView.sideNavHandler();
   navigationView.navigateToHandler(controlNav);
+  loginView.loginHandler();
+  loginView.logoutHandler();
 };
 init();
