@@ -119,7 +119,6 @@ export const userData = async function (data) {
 
 export const newRegistration = async function (data) {
   try {
-    console.log(data);
     if (data.password !== data.confirmPassword)
       throw new Error("Password didn't match");
     const newAcc = {
@@ -128,7 +127,6 @@ export const newRegistration = async function (data) {
       transactions: [],
     };
     accounts.push(newAcc);
-    console.log(accounts);
   } catch (err) {
     throw err;
   }

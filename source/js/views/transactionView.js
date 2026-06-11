@@ -1,9 +1,11 @@
-class TransactionView {
+import Views from "./views";
+
+class TransactionView extends Views {
   data;
   _parent = document.querySelector(".transactions-list");
   addTransactionBtn = document.querySelector(".transaction-btn");
   transactionPlate = document.querySelector(".transaction-form__section");
-  transactionForm = document.querySelector(".transaction-form");
+  form = document.querySelector(".transaction-form");
   filterBtn = document.querySelector(".filter-btn");
   filter = document.querySelector(".filter");
 
@@ -20,16 +22,6 @@ class TransactionView {
       "click",
       this.toggleTransactionForm.bind(this)
     );
-  }
-
-  addFormHandler(handler) {
-    this.transactionForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const dataArr = [...new FormData(e.target)];
-      const data = Object.fromEntries(dataArr);
-      handler(data);
-      this.toggleTransactionForm();
-    });
   }
 
   addFilterBtnHandler() {

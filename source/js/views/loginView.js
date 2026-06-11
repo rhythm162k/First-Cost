@@ -1,4 +1,6 @@
-class LoginView {
+import Views from "./views";
+
+class LoginView extends Views {
   _parent = document.querySelector(".login-screen");
   form = document.querySelector(".login-form");
   mainApp = document.querySelector(".app");
@@ -14,28 +16,10 @@ class LoginView {
     this.form.reset();
   }
 
-  errorHandler(msg) {
-    const html = `
-        <p class="error-msg">
-            <span style="color: red">⚠</span> ${msg}
-        </p>
-    `;
-    this.form.insertAdjacentHTML("afterbegin", html);
-  }
-
   logoutHandler() {
     this.logoutBtn.addEventListener("click", (e) => {
       e.preventDefault();
       this.logHandler();
-    });
-  }
-
-  loginHandler(handler) {
-    this.form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const dataArr = [...new FormData(e.target)];
-      const data = Object.fromEntries(dataArr);
-      handler(data);
     });
   }
 }

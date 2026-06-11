@@ -44,26 +44,23 @@ const controlRegistration = async function (data) {
 };
 
 const controlNewTransaction = async function (data) {
-  try {
-    await model.newTransaction(data);
-    controlTransactions();
-    controlDashboard();
-  } catch (err) {
-    transactionView.errorHandler(err.message);
-  }
+  await model.newTransaction(data);
+  controlTransactions();
+  controlDashboard();
+  transactionView.toggleTransactionForm();
 };
 
 const init = function () {
   transactionView.addTransactionHandler();
   transactionView.addFilterBtnHandler();
-  transactionView.addFormHandler(controlNewTransaction);
+  transactionView.formHandler(controlNewTransaction);
   sidebarView.addMenubarHandler();
   sidebarView.addOverlayHandler();
   sidebarView.sideNavHandler();
   navigationView.navigateToHandler(controlNav);
-  loginView.loginHandler(controlFormData);
+  loginView.formHandler(controlFormData);
   loginView.logoutHandler();
-  registerView.registerHandler(controlRegistration);
+  registerView.formHandler(controlRegistration);
   registerView.openRegisterModal();
 };
 init();
