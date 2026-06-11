@@ -35,14 +35,45 @@
       </section>
 
       <!-- REGISTER MODAL (hidden initially) -->
-      <div class="modal hidden" id="registerModal">
+      <div class="modal register-modal hidden" id="registerModal">
         <div class="modal-content">
           <h2>Create Account</h2>
-          <input type="text" placeholder="Full Name" />
-          <input type="email" placeholder="Email" />
-          <input type="password" placeholder="Password" />
-          <input type="password" placeholder="Confirm Password" />
-          <button class="btn btn-primary">Register</button>
+
+          <form class="auth-form register-form">
+            <input
+              type="text"
+              name="fullName"
+              placeholder="Full Name"
+              value="some"
+              required
+            />
+
+            <input
+              type="text"
+              name="username"
+              placeholder="User Name"
+              value="some"
+              required
+            />
+
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value="some"
+              required
+            />
+
+            <input
+              type="password"
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              value="some"
+              required
+            />
+
+            <button type="submit" class="btn btn-primary">Register</button>
+          </form>
         </div>
       </div>
 

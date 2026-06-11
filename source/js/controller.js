@@ -4,6 +4,7 @@ import transactionView from "./views/transactionView.js";
 import sidebarView from "./views/sidebarView.js";
 import navigationView from "./views/navigationView.js";
 import loginView from "./views/loginView.js";
+import registerView from "./views/registerView.js";
 
 const controlDashboard = function () {
   dashboard.updateBalance(model.state.balace);
@@ -28,6 +29,15 @@ const controlFormData = async function (data) {
   }
 };
 
+const controlRegistration = async function (data) {
+  try {
+    await model.newRegistration(data);
+    registerView.modalHandler();
+  } catch (err) {
+    registerView.errorHandler(err.message);
+  }
+};
+
 const init = function () {
   transactionView.addTransactionHandler();
   transactionView.addFilterBtnHandler();
@@ -37,5 +47,7 @@ const init = function () {
   navigationView.navigateToHandler(controlNav);
   loginView.loginHandler(controlFormData);
   loginView.logoutHandler();
+  registerView.registerHandler(controlRegistration);
+  registerView.openRegisterModal();
 };
 init();

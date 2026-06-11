@@ -91,8 +91,11 @@ const accounts = [
   },
 ];
 
+let crntUser;
+
 export const state = {
   name: "",
+  transaction: [],
   balace: 0,
   income: 0,
   expense: 0,
@@ -102,11 +105,28 @@ export const state = {
 export const userData = async function (data) {
   try {
     const { username, password } = data;
-    const crntUser = accounts.find((acc) => acc.name === username);
+    crntUser = accounts.find((acc) => acc.name === username);
     if (!crntUser)
       throw new Error("User Not Found, Please Create an Account ;)");
     if (crntUser.password !== password) throw new Error("Wrong Password");
-    updateState(crntUser);
+    await updateState(crntUser);
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const newRegistration = async function (data) {
+  try {
+    console.log(data);
+    if (data.password !== data.confirmPassword)
+      throw new Error("Password didn't match");
+    const newAcc = {
+      name: data.username,
+      password: data.password,
+      transactions: [],
+    };
+    accounts.push(newAcc);
+    console.log(accounts);
   } catch (err) {
     throw err;
   }
@@ -114,6 +134,7 @@ export const userData = async function (data) {
 
 const updateState = function (crntUser) {
   state.name = crntUser.name[0].toUpperCase() + crntUser.name.slice(1);
+  state.transaction = crntUser.transactions;
   state.income += crntUser.transactions
     .filter((trans) => trans.type === "income")
     .map((tran) => tran.amount)
