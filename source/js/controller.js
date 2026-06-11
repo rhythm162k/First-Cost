@@ -14,6 +14,10 @@ const controlDashboard = function () {
   dashboard.updateUserName(model.state.name);
 };
 
+const controlTransactions = function () {
+  transactionView.render(model.state.transaction);
+};
+
 const controlNav = function (btn) {
   const id = btn.getAttribute("href");
   document.querySelector(id).scrollIntoView({ behavior: "smooth" });
@@ -23,6 +27,7 @@ const controlFormData = async function (data) {
   try {
     await model.userData(data);
     controlDashboard();
+    controlTransactions();
     loginView.logHandler();
   } catch (err) {
     loginView.errorHandler(err.message);
@@ -38,9 +43,20 @@ const controlRegistration = async function (data) {
   }
 };
 
+const controlNewTransaction = async function (data) {
+  try {
+    await model.newTransaction(data);
+    controlTransactions();
+    controlDashboard();
+  } catch (err) {
+    transactionView.errorHandler(err.message);
+  }
+};
+
 const init = function () {
   transactionView.addTransactionHandler();
   transactionView.addFilterBtnHandler();
+  transactionView.addFormHandler(controlNewTransaction);
   sidebarView.addMenubarHandler();
   sidebarView.addOverlayHandler();
   sidebarView.sideNavHandler();

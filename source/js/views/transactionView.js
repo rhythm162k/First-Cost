@@ -1,6 +1,8 @@
 class TransactionView {
-  _parent = document.querySelector(".transaction-btn");
-  transactionPlate = document.querySelector(".transaction-panel");
+  data;
+  _parent = document.querySelector(".transactions-list");
+  addTransactionBtn = document.querySelector(".transaction-btn");
+  transactionPlate = document.querySelector(".transaction-form__section");
   transactionForm = document.querySelector(".transaction-form");
   filterBtn = document.querySelector(".filter-btn");
   filter = document.querySelector(".filter");
@@ -14,21 +16,48 @@ class TransactionView {
   }
 
   addTransactionHandler(handler = null) {
-    this._parent.addEventListener(
+    this.addTransactionBtn.addEventListener(
       "click",
       this.toggleTransactionForm.bind(this)
     );
   }
 
-  addFormHandler(handler = null) {
-    this.transactionForm.addEventListener(
-      "submit",
-      this.toggleTransactionForm.bind(this)
-    );
+  addFormHandler(handler) {
+    this.transactionForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const dataArr = [...new FormData(e.target)];
+      const data = Object.fromEntries(dataArr);
+      handler(data);
+      this.toggleTransactionForm();
+    });
   }
 
   addFilterBtnHandler() {
     this.filterBtn.addEventListener("click", this.toggleFilterForm.bind(this));
+  }
+
+  render(data) {
+    this.data = data;
+    const markup = this.data.map((obj) => this.renderMarkup(obj)).join("");
+    this._parent.innerHTML = "";
+    this._parent.insertAdjacentHTML("afterbegin", markup);
+  }
+
+  renderMarkup(data) {
+    return `
+      <article class="transaction">
+        <div>
+          <h4>${data.category}</h4>
+          <small>${data.type} • ${data.date}</small>
+        </div>
+
+        <div class="transaction-actions">
+          <span class="${data.income}">$${data.amount}</span>
+          <button class="btn btn-secondary">Edit</button>
+          <button class="btn btn-danger">Delete</button>
+        </div>
+      </article>
+    `;
   }
 }
 
