@@ -1,4 +1,4 @@
-import Views from "./views";
+import Views from "./views.js";
 
 class RegisterView extends Views {
   _parent = document.querySelector(".register-modal");

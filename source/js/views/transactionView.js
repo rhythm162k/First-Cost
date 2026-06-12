@@ -1,4 +1,4 @@
-import Views from "./views";
+import Views from "./views.js";
 
 class TransactionView extends Views {
   data;
