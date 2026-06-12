@@ -13,7 +13,6 @@ class LoginView extends Views {
     }
     this._parent.classList.toggle("hidden");
     this.mainApp.classList.toggle("hidden");
-    this.form.reset();
   }
 
   logoutHandler() {

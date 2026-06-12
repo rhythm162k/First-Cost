@@ -189,6 +189,16 @@ select {
   overflow-y: auto;
 }
 
+.filter {
+  margin-bottom: 1.5rem;
+}
+
+.filter-add-delete-btn {
+  display: grid;
+  grid-template-columns: 0.7fr 1.3fr;
+  gap: 0.5rem;
+}
+
 .topbar {
   display: flex;
   flex: 1;
@@ -262,9 +272,11 @@ select {
 }
 
 .save-transaction-btn,
-.filter-transaction-btn {
+.filter-add-btn,
+.filter-remove-btn {
   margin-top: 1.45rem;
   height: 48px;
+  width: 100%;
 }
 
 .section-header {
@@ -399,6 +411,11 @@ select {
     flex-direction: column;
     gap: 1rem;
     align-items: flex-start;
+  }
+
+  .transaction-actions {
+    justify-content: space-between;
+    width: 100%;
   }
 
   .mobile-nav {

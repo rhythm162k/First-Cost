@@ -6,26 +6,26 @@ class TransactionView extends Views {
   addTransactionBtn = document.querySelector(".transaction-btn");
   transactionPlate = document.querySelector(".transaction-form__section");
   form = document.querySelector(".transaction-form");
-  filterBtn = document.querySelector(".filter-btn");
-  filter = document.querySelector(".filter");
-
-  toggleFilterForm() {
-    this.filter.classList.toggle("hidden");
-  }
 
   toggleTransactionForm() {
     this.transactionPlate.classList.toggle("hidden");
   }
 
-  addTransactionHandler(handler = null) {
+  addTransactionHandler() {
     this.addTransactionBtn.addEventListener(
       "click",
       this.toggleTransactionForm.bind(this)
     );
   }
 
-  addFilterBtnHandler() {
-    this.filterBtn.addEventListener("click", this.toggleFilterForm.bind(this));
+  deleteTransactionHandler(handler) {
+    this._parent.addEventListener("click", function (e) {
+      const deleteBtn = e.target.closest(".delete-btn");
+      if (!deleteBtn) return;
+      const id = deleteBtn.getAttribute("id");
+      console.log(+id);
+      handler(+id);
+    });
   }
 
   render(data) {
@@ -45,8 +45,7 @@ class TransactionView extends Views {
 
         <div class="transaction-actions">
           <span class="${data.income}">$${data.amount}</span>
-          <button class="btn btn-secondary">Edit</button>
-          <button class="btn btn-danger">Delete</button>
+          <button class="btn btn-danger delete-btn" id="${data.id}">Delete</button>
         </div>
       </article>
     `;

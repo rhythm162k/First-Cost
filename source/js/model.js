@@ -146,6 +146,25 @@ export const newTransaction = function (data) {
   updateState(state.transaction);
 };
 
+export const deleteTranx = function (id) {
+  state.transaction.splice(
+    state.transaction.findIndex((trx) => trx.id === id),
+    1
+  );
+  init();
+  updateState(state.transaction);
+};
+
+export const filterTRX = function (data) {
+  const filteredTRX = state.transaction.filter(
+    (trx) =>
+      trx.category === data.category ||
+      trx.data === data.date ||
+      trx.type === data.type
+  );
+  return filteredTRX;
+};
+
 const updateState = function (transactions) {
   state.transaction = transactions;
   state.income += transactions

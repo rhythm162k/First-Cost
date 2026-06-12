@@ -16,12 +16,18 @@
           <p>Modern Personal Finance Manager</p>
 
           <form class="auth-form login-form">
-            <input type="text" name="username" placeholder="Name" required />
+            <input
+              type="text"
+              name="username"
+              placeholder="Name"
+              value="rhythm"
+            />
 
             <input
               type="password"
               name="password"
               placeholder="Password"
+              value="1234"
               required
             />
 
@@ -215,7 +221,7 @@
           <section class="panel transactions-panel" id="transactions">
             <div class="section-header">
               <h2>Transactions</h2>
-              <button class="btn btn-secondary filter-btn">Filters</button>
+              <button class="btn btn-secondary add-filter-btn">Filters</button>
             </div>
 
             <!-- FILTER DRAWER -->
@@ -240,18 +246,30 @@
                   <div class="form-group">
                     <label for="filter-type">Transaction Type</label>
                     <select id="filter-type" name="type">
-                      <option value="all">All</option>
+                      <option value="">Select Type</option>
                       <option value="income">Income</option>
                       <option value="expense">Expense</option>
                     </select>
                   </div>
 
-                  <button
-                    type="submit"
-                    class="btn btn-primary filter-transaction-btn"
-                  >
-                    Filter Transactions
-                  </button>
+                  <div class="filter-add-delete-btn">
+                    <div>
+                      <button
+                        type="submit"
+                        class="btn btn-primary filter-add-btn"
+                      >
+                        Filter
+                      </button>
+                    </div>
+                    <div>
+                      <button
+                        type="click"
+                        class="btn btn-danger filter-remove-btn"
+                      >
+                        Remove Filter
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </form>
             </section>
@@ -262,20 +280,7 @@
               <p>Start by adding your first transaction.</p>
             </div>
 
-            <div class="transactions-list">
-              <article class="transaction">
-                <div>
-                  <h4>Salary</h4>
-                  <small>Income • Jan 01, 2026</small>
-                </div>
-
-                <div class="transaction-actions">
-                  <span class="income">+$500</span>
-                  <button class="btn btn-secondary">Edit</button>
-                  <button class="btn btn-danger">Delete</button>
-                </div>
-              </article>
-            </div>
+            <div class="transactions-list"></div>
           </section>
 
           <!-- STATISTICS (hidden initially) -->

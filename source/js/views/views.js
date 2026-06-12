@@ -9,6 +9,7 @@ export default class Views {
       const dataArr = [...new FormData(e.target)];
       const data = Object.fromEntries(dataArr);
       handler(data);
+      this.form.reset();
     });
   }
 

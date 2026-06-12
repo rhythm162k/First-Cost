@@ -7,7 +7,6 @@ class RegisterView extends Views {
 
   modalHandler() {
     this._parent.classList.toggle("hidden");
-    this.form.reset();
   }
 
   openRegisterModal() {
