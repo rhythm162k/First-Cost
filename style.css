@@ -15,7 +15,8 @@
   box-sizing: border-box;
 }
 body {
-  font-family: Inter, system-ui, sans-serif;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
   background: var(--bg);
   color: var(--text);
 }

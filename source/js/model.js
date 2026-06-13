@@ -1,11 +1,12 @@
 const accounts = [
   {
+    fullName: "Md.Sami-El Bashar rhythm",
     name: "rhythm",
     password: "1234",
     transactions: [
       {
         id: 123456,
-        date: "7-03-2026",
+        date: "2026-06-01",
         category: "salary",
         amount: 2300,
         type: "income",
@@ -13,7 +14,7 @@ const accounts = [
       },
       {
         id: 345678,
-        date: "08-03-2026",
+        date: "2026-06-01",
         category: "wage",
         amount: 500,
         type: "income",
@@ -21,7 +22,7 @@ const accounts = [
       },
       {
         id: 567890,
-        date: "09-03-2026",
+        date: "2026-06-01",
         category: "cost",
         amount: 2500,
         type: "expense",
@@ -30,12 +31,13 @@ const accounts = [
     ],
   },
   {
+    fullName: "Md.Rabiul Bashar Saddam",
     name: "saddam",
     password: "5678",
     transactions: [
       {
         id: 123456,
-        date: "7-03-2026",
+        date: "2026-06-01",
         category: "salary",
         amount: 2000,
         type: "income",
@@ -43,7 +45,7 @@ const accounts = [
       },
       {
         id: 345678,
-        date: "08-03-2026",
+        date: "2026-06-01",
         category: "wage",
         amount: 2000,
         type: "income",
@@ -51,7 +53,7 @@ const accounts = [
       },
       {
         id: 567890,
-        date: "09-03-2026",
+        date: "2026-06-01",
         category: "cost",
         amount: 2000,
         type: "expense",
@@ -60,12 +62,13 @@ const accounts = [
     ],
   },
   {
+    fullName: "Md.Sami-El Bashar Holud",
     name: "holud",
     password: "6789",
     transactions: [
       {
         id: 123456,
-        date: "7-03-2026",
+        date: "2026-06-01",
         category: "salary",
         amount: 2000,
         type: "income",
@@ -73,7 +76,7 @@ const accounts = [
       },
       {
         id: 345678,
-        date: "08-03-2026",
+        date: "2026-06-01",
         category: "wage",
         amount: 2000,
         type: "income",
@@ -81,7 +84,7 @@ const accounts = [
       },
       {
         id: 567890,
-        date: "09-03-2026",
+        date: "2026-06-01",
         category: "cost",
         amount: 2000,
         type: "expense",
@@ -94,6 +97,7 @@ const accounts = [
 let crntUser;
 
 export const state = {
+  fullName: "",
   name: "",
   transaction: [],
   balace: 0,
@@ -109,7 +113,8 @@ export const userData = async function (data) {
     if (!crntUser)
       throw new Error("User Not Found, Please Create an Account ;)");
     if (crntUser.password !== password) throw new Error("Wrong Password");
-    state.name = crntUser.name[0].toUpperCase() + crntUser.name.slice(1);
+    state.fullName = crntUser.fullName;
+    state.name = crntUser.name;
     init();
     updateState(crntUser.transactions);
   } catch (err) {
@@ -119,9 +124,12 @@ export const userData = async function (data) {
 
 export const newRegistration = async function (data) {
   try {
+    const found = accounts.find((acc) => acc.name === data.username);
+    if (found) throw new Error("Username already Exists :(");
     if (data.password !== data.confirmPassword)
       throw new Error("Password didn't match");
     const newAcc = {
+      fullName: data.fullName,
       name: data.username,
       password: data.password,
       transactions: [],
@@ -141,6 +149,7 @@ export const newTransaction = function (data) {
     type: data.type,
     description: data.description,
   };
+  console.log(newTxn);
   state.transaction.unshift(newTxn);
   init();
   updateState(state.transaction);
@@ -158,9 +167,12 @@ export const deleteTranx = function (id) {
 export const filterTRX = function (data) {
   const filteredTRX = state.transaction.filter(
     (trx) =>
-      trx.category === data.category ||
+      trx.category
+        .toLowerCase()
+        .trim()
+        .includes(data.category.toLowerCase().trim()) ||
       trx.data === data.date ||
-      trx.type === data.type
+      trx.type.toLowerCase().trim() === data.type.toLowerCase().trim()
   );
   return filteredTRX;
 };

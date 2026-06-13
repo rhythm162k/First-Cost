@@ -10,11 +10,14 @@ import filterTransaction from "./views/filterTransaction.js";
 let filteredTRX = [];
 
 const controlDashboardAndTransaction = function () {
+  const userName = model.state.fullName.trim().split(" ").slice(-1)[0];
   dashboard.updateBalance(model.state.balace);
   dashboard.updateExpense(model.state.expense);
   dashboard.updateIncome(model.state.income);
   dashboard.updateSavings(model.state.saving);
-  dashboard.updateUserName(model.state.name);
+  dashboard.updateUserName(
+    userName[0].toUpperCase() + userName.slice(1).toLowerCase()
+  );
   transactionView.render(model.state.transaction);
 };
 
