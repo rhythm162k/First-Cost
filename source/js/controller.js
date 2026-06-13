@@ -70,10 +70,10 @@ const controlRemoveFilter = function () {
 const init = function () {
   transactionView.addTransactionHandler();
   transactionView.formHandler(controlNewTransaction);
+  transactionView.deleteTransactionHandler(controlDeleteTxn);
   filterTransaction.addFilterBtnHandler();
   filterTransaction.formHandler(controlFilter);
   filterTransaction.removeFilterHandler(controlRemoveFilter);
-  transactionView.deleteTransactionHandler(controlDeleteTxn);
   sidebarView.addMenubarHandler();
   sidebarView.addOverlayHandler();
   sidebarView.sideNavHandler();

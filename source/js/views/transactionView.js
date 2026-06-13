@@ -6,6 +6,8 @@ class TransactionView extends Views {
   addTransactionBtn = document.querySelector(".transaction-btn");
   transactionPlate = document.querySelector(".transaction-form__section");
   form = document.querySelector(".transaction-form");
+  filterBtn = document.querySelector(".add-filter-btn");
+  emptyState = document.querySelector(".empty-state");
 
   toggleTransactionForm() {
     this.transactionPlate.classList.toggle("hidden");
@@ -28,8 +30,21 @@ class TransactionView extends Views {
     });
   }
 
+  noTransactionState() {
+    this.filterBtn.classList.add("hidden");
+    this.emptyState.classList.remove("hidden");
+  }
+
+  transactionState() {
+    this.filterBtn.classList.remove("hidden");
+    this.emptyState.classList.add("hidden");
+  }
+
   render(data) {
     this.data = data;
+    this.data.length === 0
+      ? this.noTransactionState()
+      : this.transactionState();
     const markup = this.data.map((obj) => this.renderMarkup(obj)).join("");
     this._parent.innerHTML = "";
     this._parent.insertAdjacentHTML("afterbegin", markup);
