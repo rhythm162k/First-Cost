@@ -12,6 +12,14 @@ class RegisterView extends Views {
   openRegisterModal() {
     this.createBtn.addEventListener("click", this.modalHandler.bind(this));
   }
+
+  closeRegisterModal() {
+    this._parent.addEventListener("click", (e) => {
+      const content = e.target.closest(".modal-content");
+      if (content) return;
+      this.modalHandler();
+    });
+  }
 }
 
 export default new RegisterView();

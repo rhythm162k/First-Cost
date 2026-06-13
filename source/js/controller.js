@@ -9,6 +9,11 @@ import filterTransaction from "./views/filterTransaction.js";
 
 let filteredTRX = [];
 
+const readingData = async function () {
+  const accounts = await JSON.parse(localStorage.getItem("accounts"));
+  model.init(accounts);
+};
+
 const controlDashboardAndTransaction = function () {
   const userName = model.state.fullName.trim().split(" ").slice(-1)[0];
   dashboard.updateBalance(model.state.balace);
@@ -67,7 +72,8 @@ const controlRemoveFilter = function () {
   transactionView.render(model.state.transaction);
 };
 
-const init = function () {
+const init = async function () {
+  readingData();
   transactionView.addTransactionHandler();
   transactionView.formHandler(controlNewTransaction);
   transactionView.deleteTransactionHandler(controlDeleteTxn);
@@ -82,5 +88,6 @@ const init = function () {
   loginView.logoutHandler();
   registerView.formHandler(controlRegistration);
   registerView.openRegisterModal();
+  registerView.closeRegisterModal();
 };
 init();

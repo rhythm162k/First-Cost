@@ -1,100 +1,9 @@
-const accounts = [
-  {
-    fullName: "Md.Sami-El Bashar rhythm",
-    name: "rhythm",
-    password: "1234",
-    transactions: [
-      {
-        id: 123456,
-        date: "2026-06-01",
-        category: "salary",
-        amount: 2300,
-        type: "income",
-        description: "my job salary",
-      },
-      {
-        id: 345678,
-        date: "2026-06-01",
-        category: "wage",
-        amount: 500,
-        type: "income",
-        description: "my job wage",
-      },
-      {
-        id: 567890,
-        date: "2026-06-01",
-        category: "cost",
-        amount: 2500,
-        type: "expense",
-        description: "my job cost",
-      },
-    ],
-  },
-  {
-    fullName: "Md.Rabiul Bashar Saddam",
-    name: "saddam",
-    password: "5678",
-    transactions: [
-      {
-        id: 123456,
-        date: "2026-06-01",
-        category: "salary",
-        amount: 2000,
-        type: "income",
-        description: "my job salary",
-      },
-      {
-        id: 345678,
-        date: "2026-06-01",
-        category: "wage",
-        amount: 2000,
-        type: "income",
-        description: "my job wage",
-      },
-      {
-        id: 567890,
-        date: "2026-06-01",
-        category: "cost",
-        amount: 2000,
-        type: "expense",
-        description: "my job cost",
-      },
-    ],
-  },
-  {
-    fullName: "Md.Sami-El Bashar Holud",
-    name: "holud",
-    password: "6789",
-    transactions: [
-      {
-        id: 123456,
-        date: "2026-06-01",
-        category: "salary",
-        amount: 2000,
-        type: "income",
-        description: "my job salary",
-      },
-      {
-        id: 345678,
-        date: "2026-06-01",
-        category: "wage",
-        amount: 2000,
-        type: "income",
-        description: "my job wage",
-      },
-      {
-        id: 567890,
-        date: "2026-06-01",
-        category: "cost",
-        amount: 2000,
-        type: "expense",
-        description: "my job cost",
-      },
-    ],
-  },
-];
-
+let accounts;
 let crntUser;
+
+export const init = function (data) {
+  accounts = data || [];
+};
 
 export const state = {
   fullName: "",
@@ -115,7 +24,7 @@ export const userData = async function (data) {
     if (crntUser.password !== password) throw new Error("Wrong Password");
     state.fullName = crntUser.fullName;
     state.name = crntUser.name;
-    init();
+    setInit();
     updateState(crntUser.transactions);
   } catch (err) {
     throw err;
@@ -135,6 +44,7 @@ export const newRegistration = async function (data) {
       transactions: [],
     };
     accounts.push(newAcc);
+    localStorage.setItem("accounts", JSON.stringify(accounts));
   } catch (err) {
     throw err;
   }
@@ -149,19 +59,20 @@ export const newTransaction = function (data) {
     type: data.type,
     description: data.description,
   };
-  console.log(newTxn);
-  state.transaction.unshift(newTxn);
-  init();
-  updateState(state.transaction);
+  crntUser.transactions.unshift(newTxn);
+  localStorage.setItem("accounts", JSON.stringify(accounts));
+  setInit();
+  updateState(crntUser.transactions);
 };
 
 export const deleteTranx = function (id) {
-  state.transaction.splice(
-    state.transaction.findIndex((trx) => trx.id === id),
+  crntUser.transactions.splice(
+    crntUser.transactions.findIndex((trx) => trx.id === id),
     1
   );
-  init();
-  updateState(state.transaction);
+  localStorage.setItem("accounts", JSON.stringify(accounts));
+  setInit();
+  updateState(crntUser.transactions);
 };
 
 export const filterTRX = function (data) {
@@ -190,7 +101,7 @@ const updateState = function (transactions) {
   state.balace = state.income - state.expense;
 };
 
-const init = function () {
+const setInit = function () {
   state.balace = 0;
   state.income = 0;
   state.expense = 0;
