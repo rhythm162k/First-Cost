@@ -12,7 +12,7 @@ export const state = {
   balace: 0,
   income: 0,
   expense: 0,
-  saving: 0,
+  savings: 0,
 };
 
 export const userData = async function (data) {
@@ -89,6 +89,7 @@ export const filterTRX = function (data) {
 };
 
 const updateState = function (transactions) {
+  console.log(transactions);
   state.transaction = transactions;
   state.income += transactions
     .filter((trans) => trans.type === "income")
@@ -98,12 +99,16 @@ const updateState = function (transactions) {
     .filter((trans) => trans.type === "expense")
     .map((tran) => tran.amount)
     .reduce((inc, crnt) => inc + crnt, 0);
-  state.balace = state.income - state.expense;
+  state.savings += transactions
+    .filter((trans) => trans.type === "savings")
+    .map((tran) => tran.amount)
+    .reduce((inc, crnt) => inc + crnt, 0);
+  state.balace = state.income - state.expense - state.savings;
 };
 
 const setInit = function () {
   state.balace = 0;
   state.income = 0;
   state.expense = 0;
-  state.saving = 0;
+  state.savings = 0;
 };

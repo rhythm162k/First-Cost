@@ -19,7 +19,7 @@ const controlDashboardAndTransaction = function () {
   dashboard.updateBalance(model.state.balace);
   dashboard.updateExpense(model.state.expense);
   dashboard.updateIncome(model.state.income);
-  dashboard.updateSavings(model.state.saving);
+  dashboard.updateSavings(model.state.savings);
   dashboard.updateUserName(
     userName[0].toUpperCase() + userName.slice(1).toLowerCase()
   );
