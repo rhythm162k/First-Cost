@@ -6,11 +6,13 @@ import navigationView from "./views/navigationView.js";
 import loginView from "./views/loginView.js";
 import registerView from "./views/registerView.js";
 import filterTransaction from "./views/filterTransaction.js";
+import chartView from "./views/chartView.js";
+import themeView from "./views/themeView.js";
 
 let filteredTRX = [];
 
-const readingData = async function () {
-  const accounts = await JSON.parse(localStorage.getItem("accounts"));
+const readingData = function () {
+  const accounts = JSON.parse(localStorage.getItem("accounts"));
   model.init(accounts);
 };
 
@@ -34,7 +36,10 @@ const controlNav = function (btn) {
 const controlFormData = async function (data) {
   try {
     await model.userData(data);
+    crntTheme();
     controlDashboardAndTransaction();
+    controlCharts();
+    controlMonthlyChart();
     loginView.logHandler();
   } catch (err) {
     loginView.errorHandler(err.message);
@@ -53,12 +58,16 @@ const controlRegistration = async function (data) {
 const controlNewTransaction = async function (data) {
   model.newTransaction(data);
   controlDashboardAndTransaction();
+  controlCharts();
+  controlMonthlyChart();
   transactionView.toggleTransactionForm();
 };
 
 const controlDeleteTxn = async function (id) {
   model.deleteTranx(id);
   controlDashboardAndTransaction();
+  controlCharts();
+  controlMonthlyChart();
 };
 
 const controlFilter = async function (data) {
@@ -72,7 +81,54 @@ const controlRemoveFilter = function () {
   transactionView.render(model.state.transaction);
 };
 
-const init = async function () {
+const controlCharts = function () {
+  console.log(model.state.transaction);
+  const transactions = model.state.transaction;
+
+  const expenses = transactions.filter((t) => t.type === "expense");
+
+  const grouped = expenses.reduce((acc, t) => {
+    acc[t.category] = (acc[t.category] || 0) + t.amount;
+    return acc;
+  }, {});
+
+  const labels = Object.keys(grouped);
+  const data = Object.values(grouped);
+
+  chartView.renderExpenseChart(labels, data);
+};
+
+const controlMonthlyChart = function () {
+  const transactions = model.state.transaction;
+
+  const monthly = transactions.reduce((acc, t) => {
+    const date = new Date(t.date);
+
+    const month = date.toLocaleString("default", {
+      month: "short",
+      year: "numeric",
+    });
+
+    acc[month] = (acc[month] || 0) + t.amount;
+
+    return acc;
+  }, {});
+  const labels = Object.keys(monthly);
+  const data = Object.values(monthly);
+
+  chartView.renderMonthlyChart(labels, data);
+};
+
+const crntTheme = function () {
+  const theme = model.state.theme;
+  themeView.theme(theme);
+};
+
+const controlTheme = function (theme) {
+  model.themeControl(theme);
+};
+
+const init = function () {
   readingData();
   transactionView.addTransactionHandler();
   transactionView.formHandler(controlNewTransaction);
@@ -89,5 +145,6 @@ const init = async function () {
   registerView.formHandler(controlRegistration);
   registerView.openRegisterModal();
   registerView.closeRegisterModal();
+  themeView.themeBtnHandler(controlTheme);
 };
 init();

@@ -9,6 +9,7 @@ export const state = {
   fullName: "",
   name: "",
   transaction: [],
+  theme: "",
   balace: 0,
   income: 0,
   expense: 0,
@@ -24,6 +25,7 @@ export const userData = async function (data) {
     if (crntUser.password !== password) throw new Error("Wrong Password");
     state.fullName = crntUser.fullName;
     state.name = crntUser.name;
+    state.theme = crntUser.theme;
     setInit();
     updateState(crntUser.transactions);
   } catch (err) {
@@ -42,6 +44,7 @@ export const newRegistration = async function (data) {
       name: data.username,
       password: data.password,
       transactions: [],
+      theme: "",
     };
     accounts.push(newAcc);
     localStorage.setItem("accounts", JSON.stringify(accounts));
@@ -88,8 +91,12 @@ export const filterTRX = function (data) {
   return filteredTRX;
 };
 
+export const themeControl = function (theme) {
+  crntUser.theme = theme;
+  localStorage.setItem("accounts", JSON.stringify(accounts));
+};
+
 const updateState = function (transactions) {
-  console.log(transactions);
   state.transaction = transactions;
   state.income += transactions
     .filter((trans) => trans.type === "income")

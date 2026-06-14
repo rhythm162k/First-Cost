@@ -9,6 +9,7 @@
     "start": "parcel index.html"
   },
   "dependencies": {
+    "chart.js": "^4.5.1",
     "parcel": "^2.16.4"
   }
 }
