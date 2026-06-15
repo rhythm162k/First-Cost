@@ -8,7 +8,7 @@
   "scripts": {
     "start": "parcel index.html",
     "build": "parcel build index.html --public-url ./",
-    "deploy": "rm -rf dist docs && parcel build index.html --dist-dir dist && cp -R dist docs"
+    "deploy": "rm -rf dist docs && npm run build && cp -R dist docs"
   },
   "dependencies": {
     "chart.js": "^4.5.1",
