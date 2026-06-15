@@ -123,7 +123,11 @@ class ChartView {
     }
 
     this._monthlyChart.data.labels = labels;
-    this._monthlyChart.data.datasets[0].data = data;
+
+    this._monthlyChart.data.datasets[0].data = incomeData;
+    this._monthlyChart.data.datasets[1].data = expenseData;
+    this._monthlyChart.data.datasets[2].data = savingsData;
+
     this._monthlyChart.update();
   }
 
