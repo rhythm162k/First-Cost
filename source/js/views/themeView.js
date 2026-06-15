@@ -1,8 +1,5 @@
-import logoLight from "url:../../img/logo.png";
-import logoDark from "url:../../img/logo-dark.png";
-
-console.log("Light:", logoLight);
-console.log("Dark:", logoDark);
+const logoLight = new URL("../../img/logo.png", import.meta.url).href;
+const logoDark = new URL("../../img/logo-dark.png", import.meta.url).href;
 
 class ThemeView {
   _parent = document.querySelector(".theme");

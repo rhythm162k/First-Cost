@@ -6,7 +6,8 @@
   "author": "Md.Sami-El Bashar Rhythm",
   "type": "commonjs",
   "scripts": {
-    "start": "parcel index.html"
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
   },
   "dependencies": {
     "chart.js": "^4.5.1",
