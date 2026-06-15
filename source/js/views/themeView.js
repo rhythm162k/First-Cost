@@ -1,17 +1,20 @@
+import logoLight from "url:../../img/logo.png";
+import logoDark from "url:../../img/logo-dark.png";
+
 class ThemeView {
   _parent = document.querySelector(".theme");
   body = document.querySelector("body");
-  logo = document.querySelector(".brand-logo");
+  logoEl = document.querySelector(".brand-logo");
 
   theme(themeState) {
     if (themeState === "dark") {
       this._parent.textContent = "Toggle Light Mode";
       this.body.classList.add("dark");
-      this.logo.setAttribute("src", "./source/img/logo-dark.png");
+      this.logoEl.setAttribute("src", logoDark);
     } else {
       this._parent.textContent = "Toggle Dark Mode";
       this.body.classList.remove("dark");
-      this.logo.src = "./source/img/logo.png";
+      this.logoEl.src = logoLight;
     }
   }
 
@@ -25,10 +28,7 @@ class ThemeView {
         ? "Toggle Light Mode"
         : "Toggle Dark Mode";
 
-      this.logo.setAttribute(
-        "src",
-        isDark ? "./source/img/logo-dark.png" : "./source/img/logo.png"
-      );
+      this.logoEl.setAttribute("src", isDark ? logoDark : logoLight);
 
       handler(isDark ? "dark" : "");
     });

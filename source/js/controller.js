@@ -126,6 +126,7 @@ const crntTheme = function () {
 
 const controlTheme = function (theme) {
   model.themeControl(theme);
+  chartView.updateColors();
 };
 
 const init = function () {

@@ -1,7 +1,9 @@
 :root {
   --bg: #f4f7fb;
   --surface: #ffffff;
-  --primary: #2563eb;
+  --primary: #007aff;
+  --positive: #34c759;
+  --negative: #ff3b30;
   --text: #111827;
   --muted: #6b7280;
   --border: #e5e7eb;
@@ -12,7 +14,9 @@
 body.dark {
   --bg: #111827;
   --surface: #1f2937;
-  --primary: #3b82f6;
+  --primary: #0a84ff;
+  --positive: #30d158;
+  --negative: #ff453a;
   --text: #f9fafb;
   --muted: #9ca3af;
   --border: #374151;
@@ -95,7 +99,7 @@ select {
 }
 
 .btn-danger {
-  background: #dc2626;
+  background: var(--negative);
   color: white;
 }
 
@@ -158,6 +162,10 @@ select {
   display: none;
 }
 
+.mobile-nav p {
+  color: var(--text);
+}
+
 .nav-btn {
   padding: 1rem;
   border: none;
@@ -210,6 +218,11 @@ select {
   display: grid;
   grid-template-columns: 0.7fr 1.3fr;
   gap: 0.5rem;
+}
+
+#expenseChart,
+#monthlyChart {
+  color: var(--text);
 }
 
 .topbar {
@@ -332,12 +345,12 @@ select {
 }
 
 .income {
-  color: green;
+  color: var(--positive);
   font-weight: 700;
 }
 
 .expenses {
-  color: #dc2626;
+  color: var(--negative);
   font-weight: 700;
 }
 
