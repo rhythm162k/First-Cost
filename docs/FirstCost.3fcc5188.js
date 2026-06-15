@@ -734,6 +734,8 @@ var _chartViewJs = require("./views/chartView.js");
 var _chartViewJsDefault = parcelHelpers.interopDefault(_chartViewJs);
 var _themeViewJs = require("./views/themeView.js");
 var _themeViewJsDefault = parcelHelpers.interopDefault(_themeViewJs);
+var _deleteAccViewJs = require("./views/deleteAccView.js");
+var _deleteAccViewJsDefault = parcelHelpers.interopDefault(_deleteAccViewJs);
 let filteredTRX = [];
 const readingData = function() {
     const accounts = JSON.parse(localStorage.getItem("accounts"));
@@ -796,26 +798,44 @@ const controlRemoveFilter = function() {
 const controlCharts = function() {
     const transactions = _modelJs.state.transaction;
     (0, _chartViewJsDefault.default).statsState(transactions);
-    const expenses = transactions.filter((t)=>t.type === "expense");
-    const grouped = expenses.reduce((acc, t)=>{
-        acc[t.category] = (acc[t.category] || 0) + t.amount;
+    const summary = transactions.reduce((acc, t)=>{
+        acc[t.type] = (acc[t.type] || 0) + t.amount;
         return acc;
-    }, {});
+    }, {
+        income: 0,
+        expense: 0,
+        savings: 0
+    });
     const monthly = transactions.reduce((acc, t)=>{
         const date = new Date(t.date);
         const month = date.toLocaleString("default", {
             month: "short",
             year: "numeric"
         });
-        acc[month] = (acc[month] || 0) + t.amount;
+        if (!acc[month]) acc[month] = {
+            income: 0,
+            expense: 0,
+            savings: 0
+        };
+        acc[month][t.type] += t.amount;
         return acc;
     }, {});
-    const pieLabels = Object.keys(grouped);
-    const pieData = Object.values(grouped);
+    const pieLabels = [
+        "Income",
+        "Expense",
+        "Savings"
+    ];
+    const pieData = [
+        summary.income,
+        summary.expense,
+        summary.savings
+    ];
     const lineLabels = Object.keys(monthly);
-    const lineData = Object.values(monthly);
+    const incomeData = lineLabels.map((m)=>monthly[m].income);
+    const expenseData = lineLabels.map((m)=>monthly[m].expense);
+    const savingsData = lineLabels.map((m)=>monthly[m].savings);
     (0, _chartViewJsDefault.default).renderExpenseChart(pieLabels, pieData);
-    (0, _chartViewJsDefault.default).renderMonthlyChart(lineLabels, lineData);
+    (0, _chartViewJsDefault.default).renderMonthlyChart(lineLabels, incomeData, expenseData, savingsData);
 };
 const crntTheme = function() {
     const theme = _modelJs.state.theme;
@@ -824,6 +844,14 @@ const crntTheme = function() {
 const controlTheme = function(theme) {
     _modelJs.themeControl(theme);
     (0, _chartViewJsDefault.default).updateColors();
+};
+const controlDeleteFrom = function(data) {
+    try {
+        _modelJs.deleteAcc(data);
+        (0, _deleteAccViewJsDefault.default).backToStart();
+    } catch (err) {
+        (0, _deleteAccViewJsDefault.default).errorHandler(err.message);
+    }
 };
 const init = function() {
     readingData();
@@ -843,10 +871,13 @@ const init = function() {
     (0, _registerViewJsDefault.default).openRegisterModal();
     (0, _registerViewJsDefault.default).closeRegisterModal();
     (0, _themeViewJsDefault.default).themeBtnHandler(controlTheme);
+    (0, _deleteAccViewJsDefault.default).openModal();
+    (0, _deleteAccViewJsDefault.default).formHandler(controlDeleteFrom);
+    (0, _deleteAccViewJsDefault.default).closeModal();
 };
 init();
 
-},{"./model.js":"1fJ1U","./views/dashboardView.js":"634bo","./views/transactionView.js":"1kj1z","./views/sidebarView.js":"jvshn","./views/navigationView.js":"bunKb","./views/loginView.js":"4abfB","./views/registerView.js":"lptqv","./views/filterTransaction.js":"6XfIt","./views/chartView.js":"4yumb","./views/themeView.js":"lVD6F","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"1fJ1U":[function(require,module,exports,__globalThis) {
+},{"./model.js":"1fJ1U","./views/dashboardView.js":"634bo","./views/transactionView.js":"1kj1z","./views/sidebarView.js":"jvshn","./views/navigationView.js":"bunKb","./views/loginView.js":"4abfB","./views/registerView.js":"lptqv","./views/filterTransaction.js":"6XfIt","./views/chartView.js":"4yumb","./views/themeView.js":"lVD6F","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./views/deleteAccView.js":"1dt7g"}],"1fJ1U":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "init", ()=>init);
@@ -855,6 +886,7 @@ parcelHelpers.export(exports, "userData", ()=>userData);
 parcelHelpers.export(exports, "newRegistration", ()=>newRegistration);
 parcelHelpers.export(exports, "newTransaction", ()=>newTransaction);
 parcelHelpers.export(exports, "deleteTranx", ()=>deleteTranx);
+parcelHelpers.export(exports, "deleteAcc", ()=>deleteAcc);
 parcelHelpers.export(exports, "filterTRX", ()=>filterTRX);
 parcelHelpers.export(exports, "themeControl", ()=>themeControl);
 let accounts;
@@ -924,6 +956,11 @@ const deleteTranx = function(id) {
     localStorage.setItem("accounts", JSON.stringify(accounts));
     setInit();
     updateState(crntUser.transactions);
+};
+const deleteAcc = function(data) {
+    if (!crntUser.password === data.password) throw new Error("Password didn't match :(");
+    accounts.splice(accounts.findIndex((acc)=>acc.name === crntUser.name), 1);
+    localStorage.setItem("accounts", JSON.stringify(accounts));
 };
 const filterTRX = function(data) {
     const filteredTRX = state.transaction.filter((trx)=>trx.category.toLowerCase().trim().includes(data.category.toLowerCase().trim()) || trx.data === data.date || trx.type.toLowerCase().trim() === data.type.toLowerCase().trim());
@@ -1028,7 +1065,6 @@ class TransactionView extends (0, _viewsJsDefault.default) {
             const deleteBtn = e.target.closest(".delete-btn");
             if (!deleteBtn) return;
             const id = deleteBtn.getAttribute("id");
-            console.log(+id);
             handler(+id);
         });
     }
@@ -1234,10 +1270,10 @@ class ChartView {
         this.chartPlaceHolder.forEach((placeholder)=>placeholder.classList.remove("hidden"));
         this.emptyStats.classList.add("hidden");
     }
-    statsState(data) {
-        data.length === 0 ? this.noTransactionState() : this.transactionState();
+    statsState(data1) {
+        data1.length === 0 ? this.noTransactionState() : this.transactionState();
     }
-    renderExpenseChart(labels, data) {
+    renderExpenseChart(labels, data1) {
         if (!this._chartInstance) {
             this._chartInstance = new (0, _autoDefault.default)(this._expenseChartEl, {
                 type: "pie",
@@ -1245,7 +1281,7 @@ class ChartView {
                     labels,
                     datasets: [
                         {
-                            data
+                            data: data1
                         }
                     ]
                 },
@@ -1265,10 +1301,10 @@ class ChartView {
         }
         // update existing chart
         this._chartInstance.data.labels = labels;
-        this._chartInstance.data.datasets[0].data = data;
+        this._chartInstance.data.datasets[0].data = data1;
         this._chartInstance.update();
     }
-    renderMonthlyChart(labels, data) {
+    renderMonthlyChart(labels, incomeData, expenseData, savingsData) {
         if (!this._monthlyChart) {
             this._monthlyChart = new (0, _autoDefault.default)(this._monthlyChartEl, {
                 type: "line",
@@ -1276,8 +1312,18 @@ class ChartView {
                     labels,
                     datasets: [
                         {
-                            label: "Monthly Total",
-                            data,
+                            label: "Income",
+                            data: incomeData,
+                            fill: false
+                        },
+                        {
+                            label: "Expense",
+                            data: expenseData,
+                            fill: false
+                        },
+                        {
+                            label: "Savings",
+                            data: savingsData,
                             fill: false
                         }
                     ]
@@ -14944,6 +14990,39 @@ module.exports = module.bundle.resolve("logo.2ffbb861.png") + "?" + Date.now();
 },{}],"9auwY":[function(require,module,exports,__globalThis) {
 module.exports = module.bundle.resolve("logo-dark.ebc27fdb.png") + "?" + Date.now();
 
-},{}]},["gofy9","hoSW4"], "hoSW4", "parcelRequire5b86", {}, "./", "/")
+},{}],"1dt7g":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _viewsJs = require("./views.js");
+var _viewsJsDefault = parcelHelpers.interopDefault(_viewsJs);
+class DeleteAccView extends (0, _viewsJsDefault.default) {
+    _parent = document.querySelector(".delete-acc-modal");
+    loginScrn = document.querySelector(".login-screen");
+    form = document.querySelector(".delete-form");
+    deleteAccBtn = document.querySelector(".delete-acc-btn");
+    deleteAcc = document.querySelector(".delete-acc");
+    mainApp = document.querySelector(".app");
+    backToStart() {
+        this.loginScrn.classList.toggle("hidden");
+        this.mainApp.classList.toggle("hidden");
+        this._parent.classList.toggle("hidden");
+    }
+    modalHandler() {
+        this._parent.classList.toggle("hidden");
+    }
+    openModal() {
+        this.deleteAcc.addEventListener("click", this.modalHandler.bind(this));
+    }
+    closeModal() {
+        this._parent.addEventListener("click", (e)=>{
+            const content = e.target.closest(".modal-content");
+            if (content) return;
+            this.modalHandler();
+        });
+    }
+}
+exports.default = new DeleteAccView();
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./views.js":"hhNBq"}]},["gofy9","hoSW4"], "hoSW4", "parcelRequire5b86", {}, "./", "/")
 
 //# sourceMappingURL=FirstCost.3fcc5188.js.map

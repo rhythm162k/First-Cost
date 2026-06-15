@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang=en><script type=importmap>{"imports":{"4Btoc":"./logo-dark.017ea812.png","7AhPS":"./logo.918719e7.png"}}</script><meta charset=UTF-8><meta name=viewport content="width=device-width, initial-scale=1.0"><title>First Cost</title><link rel=icon type=image/png href=taka.83d426cd.png><link rel=apple-touch-icon href=taka.83d426cd.png><link rel=mask-icon href=taka.83d426cd.png color=#000000><link rel=stylesheet href=FirstCost.0d169a86.css><script type=module src=FirstCost.7a9c172a.js></script><body>
+<!DOCTYPE html><html lang=en><script type=importmap>{"imports":{"4Btoc":"./logo-dark.017ea812.png","7AhPS":"./logo.918719e7.png"}}</script><meta charset=UTF-8><meta name=viewport content="width=device-width, initial-scale=1.0"><title>First Cost</title><link rel=icon type=image/png href=taka.83d426cd.png><link rel=apple-touch-icon href=taka.83d426cd.png><link rel=mask-icon href=taka.83d426cd.png color=#000000><link rel=stylesheet href=FirstCost.0d169a86.css><script type=module src=FirstCost.1578716b.js></script><body>
     <div class=container>
       
       <section class="auth-screen login-screen" id=authScreen>
@@ -225,10 +225,24 @@
 
             <div class=settings-list>
               <button class="btn btn-secondary theme">Toggle Dark Mode</button>
-              
-              <button class="btn btn-danger logout-btn">Logout</button>
+              <button class="btn btn-secondary logout-btn">Logout</button>
+              <button class="btn btn-danger delete-acc">Delete Account</button>
             </div>
           </section>
+
+          <div class="delete-acc-modal hidden modal" id=deleteAccModal>
+            <div class=modal-content>
+              <h2>Delete Your Account</h2>
+
+              <form class="auth-form delete-form">
+                <input type=password name=password placeholder=Password required>
+
+                <button class="btn btn-danger delete-acc-btn">
+                  Delete Account
+                </button>
+              </form>
+            </div>
+          </div>
 
           <nav class="mobile-nav navigation">
             <button class="mobile-nav-btn navigate-to" href=#dashboard>
