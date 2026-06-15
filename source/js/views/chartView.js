@@ -2,8 +2,30 @@ import Chart from "chart.js/auto";
 
 class ChartView {
   _expenseChartEl = document.querySelector("#expenseChart");
+  _monthlyChartEl = document.querySelector("#monthlyChart");
+  body = document.querySelector("body");
+  emptyStats = document.querySelector(".empty-stats");
+  chartPlaceHolder = document.querySelectorAll(".chart-placeholder");
   _chartInstance = null;
   _monthlyChart = null;
+
+  noTransactionState() {
+    this.chartPlaceHolder.forEach((placeholder) =>
+      placeholder.classList.add("hidden")
+    );
+    this.emptyStats.classList.remove("hidden");
+  }
+
+  transactionState() {
+    this.chartPlaceHolder.forEach((placeholder) =>
+      placeholder.classList.remove("hidden")
+    );
+    this.emptyStats.classList.add("hidden");
+  }
+
+  statsState(data) {
+    data.length === 0 ? this.noTransactionState() : this.transactionState();
+  }
 
   renderExpenseChart(labels, data) {
     if (!this._chartInstance) {
@@ -23,7 +45,7 @@ class ChartView {
           plugins: {
             legend: {
               labels: {
-                color: getComputedStyle(document.querySelector("body"))
+                color: getComputedStyle(this.body)
                   .getPropertyValue("--text")
                   .trim(),
               },
@@ -44,7 +66,7 @@ class ChartView {
 
   renderMonthlyChart(labels, data) {
     if (!this._monthlyChart) {
-      this._monthlyChart = new Chart(document.querySelector("#monthlyChart"), {
+      this._monthlyChart = new Chart(this._monthlyChartEl, {
         type: "line",
         data: {
           labels,
@@ -62,7 +84,7 @@ class ChartView {
           plugins: {
             legend: {
               labels: {
-                color: getComputedStyle(document.querySelector("body"))
+                color: getComputedStyle(this.body)
                   .getPropertyValue("--text")
                   .trim(),
               },
@@ -71,14 +93,14 @@ class ChartView {
           scales: {
             x: {
               ticks: {
-                color: getComputedStyle(document.querySelector("body"))
+                color: getComputedStyle(this.body)
                   .getPropertyValue("--text")
                   .trim(),
               },
             },
             y: {
               ticks: {
-                color: getComputedStyle(document.querySelector("body"))
+                color: getComputedStyle(this.body)
                   .getPropertyValue("--text")
                   .trim(),
               },
@@ -96,7 +118,7 @@ class ChartView {
   }
 
   updateColors() {
-    const textColor = getComputedStyle(document.querySelector("body"))
+    const textColor = getComputedStyle(this.body)
       .getPropertyValue("--text")
       .trim();
 

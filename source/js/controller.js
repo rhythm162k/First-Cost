@@ -39,7 +39,6 @@ const controlFormData = async function (data) {
     crntTheme();
     controlDashboardAndTransaction();
     controlCharts();
-    controlMonthlyChart();
     loginView.logHandler();
   } catch (err) {
     loginView.errorHandler(err.message);
@@ -59,7 +58,6 @@ const controlNewTransaction = async function (data) {
   model.newTransaction(data);
   controlDashboardAndTransaction();
   controlCharts();
-  controlMonthlyChart();
   transactionView.toggleTransactionForm();
 };
 
@@ -67,7 +65,6 @@ const controlDeleteTxn = async function (id) {
   model.deleteTranx(id);
   controlDashboardAndTransaction();
   controlCharts();
-  controlMonthlyChart();
 };
 
 const controlFilter = async function (data) {
@@ -82,8 +79,8 @@ const controlRemoveFilter = function () {
 };
 
 const controlCharts = function () {
-  console.log(model.state.transaction);
   const transactions = model.state.transaction;
+  chartView.statsState(transactions);
 
   const expenses = transactions.filter((t) => t.type === "expense");
 
@@ -91,15 +88,6 @@ const controlCharts = function () {
     acc[t.category] = (acc[t.category] || 0) + t.amount;
     return acc;
   }, {});
-
-  const labels = Object.keys(grouped);
-  const data = Object.values(grouped);
-
-  chartView.renderExpenseChart(labels, data);
-};
-
-const controlMonthlyChart = function () {
-  const transactions = model.state.transaction;
 
   const monthly = transactions.reduce((acc, t) => {
     const date = new Date(t.date);
@@ -113,10 +101,15 @@ const controlMonthlyChart = function () {
 
     return acc;
   }, {});
-  const labels = Object.keys(monthly);
-  const data = Object.values(monthly);
 
-  chartView.renderMonthlyChart(labels, data);
+  const pieLabels = Object.keys(grouped);
+  const pieData = Object.values(grouped);
+
+  const lineLabels = Object.keys(monthly);
+  const lineData = Object.values(monthly);
+
+  chartView.renderExpenseChart(pieLabels, pieData);
+  chartView.renderMonthlyChart(lineLabels, lineData);
 };
 
 const crntTheme = function () {

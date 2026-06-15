@@ -313,7 +313,8 @@ select {
   margin-bottom: 1rem;
 }
 
-.empty-state {
+.empty-state,
+.empty-stats {
   text-align: center;
   padding: 2rem;
   color: var(--muted);
