@@ -1,6 +1,9 @@
 import logoLight from "url:../../img/logo.png";
 import logoDark from "url:../../img/logo-dark.png";
 
+console.log("Light:", logoLight);
+console.log("Dark:", logoDark);
+
 class ThemeView {
   _parent = document.querySelector(".theme");
   body = document.querySelector("body");
