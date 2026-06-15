@@ -25,7 +25,6 @@ class TransactionView extends Views {
       const deleteBtn = e.target.closest(".delete-btn");
       if (!deleteBtn) return;
       const id = deleteBtn.getAttribute("id");
-      console.log(+id);
       handler(+id);
     });
   }

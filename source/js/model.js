@@ -78,6 +78,16 @@ export const deleteTranx = function (id) {
   updateState(crntUser.transactions);
 };
 
+export const deleteAcc = function (data) {
+  if (!crntUser.password === data.password)
+    throw new Error("Password didn't match :(");
+  accounts.splice(
+    accounts.findIndex((acc) => acc.name === crntUser.name),
+    1
+  );
+  localStorage.setItem("accounts", JSON.stringify(accounts));
+};
+
 export const filterTRX = function (data) {
   const filteredTRX = state.transaction.filter(
     (trx) =>

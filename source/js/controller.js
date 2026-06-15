@@ -8,6 +8,7 @@ import registerView from "./views/registerView.js";
 import filterTransaction from "./views/filterTransaction.js";
 import chartView from "./views/chartView.js";
 import themeView from "./views/themeView.js";
+import deleteAccView from "./views/deleteAccView.js";
 
 let filteredTRX = [];
 
@@ -82,12 +83,13 @@ const controlCharts = function () {
   const transactions = model.state.transaction;
   chartView.statsState(transactions);
 
-  const expenses = transactions.filter((t) => t.type === "expense");
-
-  const grouped = expenses.reduce((acc, t) => {
-    acc[t.category] = (acc[t.category] || 0) + t.amount;
-    return acc;
-  }, {});
+  const summary = transactions.reduce(
+    (acc, t) => {
+      acc[t.type] = (acc[t.type] || 0) + t.amount;
+      return acc;
+    },
+    { income: 0, expense: 0, savings: 0 }
+  );
 
   const monthly = transactions.reduce((acc, t) => {
     const date = new Date(t.date);
@@ -97,19 +99,35 @@ const controlCharts = function () {
       year: "numeric",
     });
 
-    acc[month] = (acc[month] || 0) + t.amount;
+    if (!acc[month]) {
+      acc[month] = {
+        income: 0,
+        expense: 0,
+        savings: 0,
+      };
+    }
+
+    acc[month][t.type] += t.amount;
 
     return acc;
   }, {});
 
-  const pieLabels = Object.keys(grouped);
-  const pieData = Object.values(grouped);
+  const pieLabels = ["Income", "Expense", "Savings"];
+  const pieData = [summary.income, summary.expense, summary.savings];
 
   const lineLabels = Object.keys(monthly);
-  const lineData = Object.values(monthly);
+
+  const incomeData = lineLabels.map((m) => monthly[m].income);
+  const expenseData = lineLabels.map((m) => monthly[m].expense);
+  const savingsData = lineLabels.map((m) => monthly[m].savings);
 
   chartView.renderExpenseChart(pieLabels, pieData);
-  chartView.renderMonthlyChart(lineLabels, lineData);
+  chartView.renderMonthlyChart(
+    lineLabels,
+    incomeData,
+    expenseData,
+    savingsData
+  );
 };
 
 const crntTheme = function () {
@@ -120,6 +138,15 @@ const crntTheme = function () {
 const controlTheme = function (theme) {
   model.themeControl(theme);
   chartView.updateColors();
+};
+
+const controlDeleteFrom = function (data) {
+  try {
+    model.deleteAcc(data);
+    deleteAccView.backToStart();
+  } catch (err) {
+    deleteAccView.errorHandler(err.message);
+  }
 };
 
 const init = function () {
@@ -140,5 +167,8 @@ const init = function () {
   registerView.openRegisterModal();
   registerView.closeRegisterModal();
   themeView.themeBtnHandler(controlTheme);
+  deleteAccView.openModal();
+  deleteAccView.formHandler(controlDeleteFrom);
+  deleteAccView.closeModal();
 };
 init();

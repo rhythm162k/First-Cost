@@ -64,7 +64,7 @@ class ChartView {
     this._chartInstance.update();
   }
 
-  renderMonthlyChart(labels, data) {
+  renderMonthlyChart(labels, incomeData, expenseData, savingsData) {
     if (!this._monthlyChart) {
       this._monthlyChart = new Chart(this._monthlyChartEl, {
         type: "line",
@@ -72,8 +72,18 @@ class ChartView {
           labels,
           datasets: [
             {
-              label: "Monthly Total",
-              data,
+              label: "Income",
+              data: incomeData,
+              fill: false,
+            },
+            {
+              label: "Expense",
+              data: expenseData,
+              fill: false,
+            },
+            {
+              label: "Savings",
+              data: savingsData,
               fill: false,
             },
           ],
