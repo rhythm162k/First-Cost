@@ -29,16 +29,6 @@ class TransactionView extends Views {
     });
   }
 
-  noTransactionState() {
-    this.filterBtn.classList.add("hidden");
-    this.emptyState.classList.remove("hidden");
-  }
-
-  transactionState() {
-    this.filterBtn.classList.remove("hidden");
-    this.emptyState.classList.add("hidden");
-  }
-
   render(data) {
     this.data = data;
     this.data.length === 0

@@ -13,6 +13,21 @@ export default class Views {
     });
   }
 
+  noTransactionState(placeholder) {
+    placeholder
+      ? placeholder.classList.add("hidden")
+      : this.filterBtn.classList.add("hidden");
+    document.querySelector(".filter").classList.add("hidden");
+    this.emptyState.classList.remove("hidden");
+  }
+
+  transactionState(placeholder) {
+    placeholder
+      ? placeholder.classList.remove("hidden")
+      : this.filterBtn.classList.remove("hidden");
+    this.emptyState.classList.add("hidden");
+  }
+
   errorHandler(msg) {
     const html = `
         <p class="error-msg">

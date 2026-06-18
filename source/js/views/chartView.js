@@ -1,30 +1,23 @@
+import Views from "./views.js";
 import Chart from "chart.js/auto";
 
-class ChartView {
+class ChartView extends Views {
   _expenseChartEl = document.querySelector("#expenseChart");
   _monthlyChartEl = document.querySelector("#monthlyChart");
   body = document.querySelector("body");
-  emptyStats = document.querySelector(".empty-stats");
+  emptyState = document.querySelector(".empty-stats");
   chartPlaceHolder = document.querySelectorAll(".chart-placeholder");
   _chartInstance = null;
   _monthlyChart = null;
 
-  noTransactionState() {
-    this.chartPlaceHolder.forEach((placeholder) =>
-      placeholder.classList.add("hidden")
-    );
-    this.emptyStats.classList.remove("hidden");
-  }
-
-  transactionState() {
-    this.chartPlaceHolder.forEach((placeholder) =>
-      placeholder.classList.remove("hidden")
-    );
-    this.emptyStats.classList.add("hidden");
-  }
-
   statsState(data) {
-    data.length === 0 ? this.noTransactionState() : this.transactionState();
+    data.length === 0
+      ? this.chartPlaceHolder.forEach((placeholder) =>
+          this.noTransactionState(placeholder)
+        )
+      : this.chartPlaceHolder.forEach((placeholder) =>
+          this.transactionState(placeholder)
+        );
   }
 
   renderExpenseChart(labels, data) {
