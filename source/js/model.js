@@ -89,15 +89,23 @@ export const deleteAcc = function (data) {
 };
 
 export const filterTRX = function (data) {
-  const filteredTRX = state.transaction.filter(
-    (trx) =>
+  const filteredTRX = state.transaction.filter((trx) => {
+    const categoryMatch =
+      !data.category ||
       trx.category
         .toLowerCase()
         .trim()
-        .includes(data.category.toLowerCase().trim()) ||
-      trx.data === data.date ||
-      trx.type.toLowerCase().trim() === data.type.toLowerCase().trim()
-  );
+        .includes(data.category.toLowerCase().trim());
+
+    const dateMatch = !data.date || trx.date === data.date;
+
+    const typeMatch =
+      !data.type ||
+      trx.type.toLowerCase().trim() === data.type.toLowerCase().trim();
+
+    return categoryMatch && dateMatch && typeMatch;
+  });
+
   return filteredTRX;
 };
 
